@@ -1,0 +1,78 @@
+{
+  "model_name": "rf_ecfp4",
+  "feature_set": "ecfp4",
+  "target_chembl_id": "CHEMBL203",
+  "trained_at_utc": "2026-11-07T06:57:46+00:00",
+  "n_train_rows": 3841,
+  "n_test_rows_held_out": 428,
+  "split_seed": 0,
+  "scaffold_type": "murcko",
+  "metrics_primary_split": {
+    "val": {
+      "rmse": 0.6794503549593026,
+      "mae": 0.5209471746337831,
+      "r2": 0.7332767057044667,
+      "spearman": 0.8487918340722588
+    },
+    "test": {
+      "rmse": 0.7416368069949144,
+      "mae": 0.5969743815633236,
+      "r2": 0.7459894284106163,
+      "spearman": 0.8323380135817714
+    }
+  },
+  "beats_mean_baseline_on_test": true,
+  "ablation_test_rmse_mean": {
+    "baseline_mean": 1.3859,
+    "gbr_desc_2d": 1.1742,
+    "gbr_desc_2d_3d": 1.1715,
+    "rf_ecfp4": 0.8367,
+    "rf_ecfp4_desc_2d_3d": 0.8522
+  },
+  "feature_importances": null,
+  "fingerprint": {
+    "radius": 2,
+    "nbits": 2048
+  },
+  "physics": {
+    "n_conformers": 10,
+    "mmff_max_iters": 2000,
+    "prune_rms": 0.5,
+    "seed": 42,
+    "temp_k": 298.15,
+    "min_heavy_atoms": 5,
+    "max_heavy_atoms": 80
+  },
+  "applicability_domain": {
+    "tanimoto_threshold": 0.35,
+    "high_confidence_threshold": 0.5,
+    "spearman_tmax_vs_abs_error": -0.1358006692928325
+  },
+  "descriptor_columns": [
+    "mol_wt",
+    "logp",
+    "tpsa",
+    "num_hbd",
+    "num_hba",
+    "rotatable_bonds",
+    "heavy_atoms",
+    "aromatic_rings",
+    "fraction_csp3",
+    "mmff94_energy_kcal_mol",
+    "mmff94_energy_spread_kcal_mol",
+    "radius_of_gyration_A",
+    "rg_std_A",
+    "asphericity",
+    "eccentricity",
+    "npr1",
+    "npr2",
+    "principal_moment_inertia_1"
+  ],
+  "versions": {
+    "python": "3.14.6",
+    "scikit-learn": "1.9.1",
+    "rdkit": "2026.09.1",
+    "mlflow": "3.18.0"
+  },
+  "mlflow_run_id": "88af23b3f85046b2af7a9ba74ebe12a5"
+}
