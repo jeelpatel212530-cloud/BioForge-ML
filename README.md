@@ -1,7 +1,70 @@
 # BioForge-ML
 
-![CI](https://github.com/<your-username>/BioForge-ML/actions/workflows/ci.yml/badge.svg)
+An end-to-end chemoinformatics and machine learning pipeline for molecular bioactivity prediction, featuring physics-informed descriptors, scaffold-based validation, applicability domain assessment, and production REST API serving.
 
+[![Live API](https://img.shields.io/badge/Render-Live%20Demo-success?logo=render&logoColor=white)](https://bioforge-ml.onrender.com/docs)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Production-009688?logo=fastapi&logoColor=white)](https://bioforge-ml.onrender.com/docs)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+---
+
+## 🌐 Live API & Documentation
+
+The service is containerized with Docker and continuously deployed on Render.
+
+* **Interactive Swagger UI:** [https://bioforge-ml.onrender.com/docs](https://bioforge-ml.onrender.com/docs)
+* **ReDoc Interface:** [https://bioforge-ml.onrender.com/redoc](https://bioforge-ml.onrender.com/redoc)
+* **OpenAPI Specification:** [https://bioforge-ml.onrender.com/openapi.json](https://bioforge-ml.onrender.com/openapi.json)
+
+> **Note:** Free-tier instances spin down during periods of inactivity. Please allow 30–50 seconds for the initial warm-up request.
+
+---
+
+## 🧬 Key Features
+
+* **Data Ingestion:** Automated bioactivity retrieval directly from the ChEMBL database with standardized SMILES parsing and target filtering.
+* **Bemis-Murcko Scaffold Splitting:** Prevents optimistic cross-validation bias by partitioning train/validation/test sets by molecular core topologies rather than random selection.
+* **Hybrid Feature Engineering:** Combines circular Morgan fingerprints (ECFP equivalent) with physicochemical properties (molecular weight, LogP, TPSA, hydrogen bond donors/acceptors, rotatable bonds).
+* **Applicability Domain (AD) Estimation:** Identifies structurally out-of-distribution molecules to prevent uncalibrated predictions in production.
+* **Artifact Tracking & Model Storage:** Compressed Joblib models packaged with configuration schemas for consistent low-latency inference.
+* **REST API:** High-throughput prediction endpoints built with FastAPI and strictly validated using Pydantic schemas.
+
+---
+
+## 📂 Project Structure
+
+```text
+BioForge-ML/
+├── artifacts/              # Serialized model weights, scalers, and artifacts
+├── configs/
+│   └── config.yaml         # Training parameters, feature flags, and thresholds
+├── data/
+│   ├── raw/                # Unprocessed ChEMBL downloads
+│   └── processed/          # Cleaned, standardized molecular data
+├── reports/                # Validation metrics, ROC/PR curves, and evaluation tables
+├── src/
+│   ├── api/                # FastAPI application and request/response schemas
+│   │   ├── main.py
+│   │   └── schemas.py
+│   ├── data/               # Ingestion and Bemis-Murcko splitting routines
+│   │   ├── ingest_chembl.py
+│   │   └── scaffold_split.py
+│   ├── features/           # Molecular physics and fingerprint feature builders
+│   │   ├── builders.py
+│   │   ├── fingerprints.py
+│   │   └── physics.py
+│   ├── models/             # Training engine, reporting, and applicability domain
+│   │   ├── applicability.py
+│   │   ├── reporting.py
+│   │   └── train.py
+│   └── utils/              # Configuration loaders and logging utilities
+├── tests/                  # Pytest test suite covering split integrity and inference
+├── Dockerfile              # Multi-stage production container configuration
+├── Makefile                # Build, test, and training orchestration targets
+├── requirements.txt        # Core ML and data engineering dependencies
+└── requirements-serve.txt  # Lightweight API runtime dependencies
 An end-to-end, reproducible QSAR pipeline: **ChEMBL IC50 ingestion → structure curation → 2D + 3D
 conformer-ensemble features → scaffold-split evaluation with a built-in ablation → MLflow
 tracking/registry → FastAPI service with an applicability-domain guardrail.**
