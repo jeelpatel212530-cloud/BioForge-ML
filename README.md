@@ -223,6 +223,100 @@ Dockerfile, requirements*.txt, Makefile, .github/workflows/ci.yml
 Hyper-parameter search with nested scaffold CV · quantile/conformal prediction intervals ·
 multi-target models · SHAP explanations · batch endpoint · drift monitoring on incoming SMILES.
 
+# 🧪 How to Use BioForge-ML (Beginner's Guide)
+
+Welcome to **BioForge-ML**! You don't need any programming background or chemical software installed on your computer to test this application. Everything runs directly inside your web browser via our interactive interface.
+
+Follow this quick step-by-step walkthrough to run your first molecular bioactivity prediction.
+
+---
+
+## 🌐 Step 1: Open the Interactive Portal
+
+Click the link below to open the live web console:
+
+👉 **[Launch BioForge-ML Interactive Portal](https://bioforge-ml.onrender.com/docs)**
+
+> ⏳ **Tip:** If the link takes 30–50 seconds to open initially, don't worry! The cloud server automatically sleeps when idle to save power and wakes up on your first visit.
+
+---
+
+## 🖱️ Step 2: Locate the Prediction Endpoint
+
+Once the page loads, you will see an interactive API documentation dashboard (powered by Swagger UI):
+
+1. Look for the green or blue bar labeled **`POST /predict`** (or `/api/v1/predict`).
+2. Click anywhere on that bar to expand its settings and input window.
+
+---
+
+## ⚡ Step 3: Test a Molecule
+
+1. Click the white **"Try it out"** button located on the right side of the expanded panel.
+2. In the text area labeled **`Request body`**, you will see a JSON input block where you provide a molecule's identifier (called a **SMILES string**—a standard text format used by chemists to represent chemical structures).
+3. Replace the placeholder text with one of the example molecules below, or paste your own.
+
+### Example Molecules You Can Copy & Paste:
+
+#### Example A: Aspirin
+```json
+{
+  "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+}
+```
+
+#### Example B: Caffeine
+```json
+{
+  "smiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"
+}
+```
+
+#### Example C: Paracetamol (Acetaminophen)
+```json
+{
+  "smiles": "CC(=O)Nc1ccc(O)cc1"
+}
+```
+
+4. Click the large blue **Execute** button directly underneath the text box.
+
+---
+
+## 📊 Step 4: Interpret the Results
+
+Scroll down to the **Responses** section (showing code `200` for success). You will receive an instant output resembling this:
+
+```json
+{
+  "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+  "prediction": "Active",
+  "confidence_score": 0.87,
+  "in_applicability_domain": true
+}
+```
+
+### What do these fields mean?
+
+* **`smiles`**: The chemical structure you submitted for evaluation.
+* **`prediction`**: Whether the machine learning model classifies the molecule as **Active** or **Inactive** against the target biological pathway.
+* **`confidence_score` / `probability`**: A number between `0.0` and `1.0` reflecting the model's certainty (e.g., `0.87` represents 87% confidence).
+* **`in_applicability_domain`**: 
+  * `true`: The molecule's chemical structure is within the known boundaries of what the model was trained on—meaning the prediction is reliable.
+  * `false`: The chemical structure is too exotic or different from the training data, so the prediction should be treated with caution.
+
+---
+
+## ❓ Frequently Asked Questions
+
+### Where can I find more chemical SMILES codes?
+You can search any drug or chemical name on [PubChem](https://pubchem.ncbi.nlm.nih.gov/). Search for an active compound (like *Ibuprofen* or *Atorvastatin*), scroll down to the **Computed Properties** section, and copy its **Canonical SMILES** string into BioForge-ML.
+
+### Why do I see a `422 Validation Error`?
+A `422` status code means the text entered was not a valid chemical formula or had incorrect JSON syntax (such as a missing quotation mark or curly bracket). Double-check the formatting against the examples above.
+[bioforge_ml_beginner_guide.md](https://github.com/user-attachments/files/34515468/bioforge_ml_beginner_guide.md)
+
+
 ## License
 
 MIT – see [LICENSE](LICENSE).
