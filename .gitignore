@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Data & generated model files (regenerate with `make all`)
+data/raw/*
+data/processed/*
+artifacts/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!artifacts/.gitkeep
+# reports/ is intentionally tracked: commit your ablation table and plots after running `make all`

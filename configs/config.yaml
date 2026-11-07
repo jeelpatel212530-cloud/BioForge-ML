@@ -1,0 +1,77 @@
+# BioForge-ML central configuration. Every stage reads this file.
+# Override the path with --config <file> or the BIOFORGE_CONFIG environment variable.
+project_name: "BioForge-ML"
+target_chembl_id: "CHEMBL203"        # EGFR (human). Any ChEMBL target id works.
+
+chembl:
+  max_records: 5000                  # kept records after filtering; null = fetch everything
+  page_size: 1000                    # ChEMBL API maximum
+  assay_type: "B"                    # B = binding assays (cleaner than cell-based "F" assays)
+  require_pchembl: true              # ChEMBL only sets pchembl_value on curated, comparable data
+  exclude_mutants: true              # drop assays on mutant protein variants
+  timeout_s: 60
+  max_retries: 5
+
+curation:
+  min_heavy_atoms: 5
+  max_heavy_atoms: 80
+  max_replicate_std: 1.0             # drop molecules whose repeat measurements disagree by > 1 log unit
+
+physics:
+  n_conformers: 10                   # ETKDGv3 conformers per molecule (ensemble, not a single guess)
+  mmff_max_iters: 2000
+  prune_rms: 0.5                     # Angstrom; removes near-duplicate conformers
+  random_seed: 42
+  boltzmann_temp_k: 298.15
+  n_jobs: -1                         # processes for featurization; -1 = all cores
+
+fingerprint:
+  radius: 2                          # ECFP4
+  nbits: 2048
+
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  artifacts_dir: "artifacts"         # serving bundle: model.joblib, ad_reference.npz, model_meta.json
+  reports_dir: "reports"
+
+split:
+  train_frac: 0.80
+  val_frac: 0.10
+  test_frac: 0.10
+  scaffold_type: "murcko"            # "murcko" or "generic" (generic is stricter: atoms/bonds abstracted)
+  seed: 0                            # primary split used for the served model
+
+evaluation:
+  seeds: [0, 1, 2, 3, 4]             # repeated scaffold splits -> mean +/- std instead of one lucky number
+
+models:
+  gbr:
+    n_estimators: 300
+    learning_rate: 0.05
+    max_depth: 4
+    subsample: 0.85
+    random_state: 42
+  rf:
+    n_estimators: 500
+    min_samples_leaf: 1
+    max_features: 0.3
+    n_jobs: -1
+    random_state: 42
+
+applicability_domain:
+  tanimoto_threshold: 0.35           # Tmax >= this -> in domain. Check reports/ad_calibration.csv.
+  high_confidence_threshold: 0.50
+  top_k_neighbors: 5
+
+serving:
+  model: "auto"                      # "auto" = best mean validation RMSE among non-baseline candidates
+  refit_on_train_val: true           # final model sees train+val; test stays untouched
+  max_smiles_length: 400
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  artifact_root: "mlruns"
+  experiment_name: "EGFR_3D_Physics_QSAR"
+  registered_model_name: "BioForge_EGFR_Regressor"
+  alias: "champion"

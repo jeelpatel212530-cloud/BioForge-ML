@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {"name": "1. Ingest ChEMBL + features", "type": "debugpy", "request": "launch",
+         "module": "src.data.ingest_chembl", "cwd": "${workspaceFolder}", "env": {"PYTHONPATH": "${workspaceFolder}"}},
+        {"name": "2. Scaffold split", "type": "debugpy", "request": "launch",
+         "module": "src.data.scaffold_split", "cwd": "${workspaceFolder}", "env": {"PYTHONPATH": "${workspaceFolder}"}},
+        {"name": "3. Train + ablation + MLflow", "type": "debugpy", "request": "launch",
+         "module": "src.models.train", "cwd": "${workspaceFolder}", "env": {"PYTHONPATH": "${workspaceFolder}"}},
+        {"name": "4. Serve API", "type": "debugpy", "request": "launch", "module": "uvicorn",
+         "args": ["src.api.main:app", "--host", "127.0.0.1", "--port", "8000", "--reload"],
+         "cwd": "${workspaceFolder}", "env": {"PYTHONPATH": "${workspaceFolder}"}},
+        {"name": "5. Run Pytest Suite", "type": "debugpy", "request": "launch", "module": "pytest",
+         "args": ["-v", "tests"], "cwd": "${workspaceFolder}", "env": {"PYTHONPATH": "${workspaceFolder}"}}
+    ]
+}
