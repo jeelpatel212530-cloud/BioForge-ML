@@ -314,7 +314,7 @@ You can search any drug or chemical name on [PubChem](https://pubchem.ncbi.nlm.n
 
 ### Why do I see a `422 Validation Error`?
 A `422` status code means the text entered was not a valid chemical formula or had incorrect JSON syntax (such as a missing quotation mark or curly bracket). Double-check the formatting against the examples above.
-[bioforge_ml_beginner_guide.md](https://github.com/user-attachments/files/34515468/bioforge_ml_beginner_guide.md)
+
 
 
 ## License
